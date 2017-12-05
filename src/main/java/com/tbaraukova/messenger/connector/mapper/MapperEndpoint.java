@@ -42,9 +42,9 @@ public class MapperEndpoint {
             ctx.result(OBJECT_MAPPER.writeValueAsString(mapping.toList()));
         });
         app.delete(API_MESSENGER_MAPPING + ID, ctx -> {
-            Cursor mapping = (r.db("messenger").table("mapping")
-                    .filter(r -> r.g("id").eq(ctx.param(ID))).delete().run(conn));
-            ctx.result(OBJECT_MAPPER.writeValueAsString(mapping.toList()));
+            Object run = r.db("messenger").table("mapping")
+                    .filter(r -> r.g("id").eq(ctx.param(ID))).delete().run(conn);
+            System.out.println(run.toString());
         });
         app.get(API_MESSENGER_MAPPING + ID, ctx -> {
             Cursor mapping = (r.db("messenger").table("mapping")
