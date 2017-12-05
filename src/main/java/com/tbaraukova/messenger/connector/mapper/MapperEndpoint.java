@@ -30,7 +30,7 @@ public class MapperEndpoint {
             MappingPair mappingPair = ctx.bodyAsClass(MappingPair.class);
             Object run;
             if (((Cursor) r.db("messenger").table("mapping")
-                    .filter(r -> r.g("id").eq(ctx.param(ID))).run(conn)).hasNext()) {
+                    .filter(r -> r.g("id").eq(mappingPair.getId())).run(conn)).hasNext()) {
                 run = r.db("messenger").table("mapping").replace(mappingPair).run(conn);
             } else {
                 run = r.db("messenger").table("mapping").insert(mappingPair).run(conn);
