@@ -49,7 +49,7 @@ public class MapperEndpoint {
         app.get(API_MESSENGER_MAPPING + ID, ctx -> {
             Cursor mapping = (r.db("messenger").table("mapping")
                     .filter(r -> r.g("id").eq(ctx.param(ID))).run(conn));
-            ctx.result(OBJECT_MAPPER.writeValueAsString(mapping.toList()));
+            ctx.result(OBJECT_MAPPER.writeValueAsString(mapping.next()));
         });
     }
 
