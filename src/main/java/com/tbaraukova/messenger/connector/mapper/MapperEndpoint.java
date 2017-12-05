@@ -30,7 +30,7 @@ public class MapperEndpoint {
             MappingPair mappingPair = ctx.bodyAsClass(MappingPair.class);
             Object run;
             if (((Cursor) r.db("messenger").table("mapping")
-                    .filter(r.row("id").eq(ctx.param(ID))).run(conn)).hasNext()) {
+                    .filter(r -> r.g("id").eq(ctx.param(ID))).run(conn)).hasNext()) {
                 run = r.db("messenger").table("mapping").replace(mappingPair).run(conn);
             } else {
                 run = r.db("messenger").table("mapping").insert(mappingPair).run(conn);
@@ -38,18 +38,17 @@ public class MapperEndpoint {
             System.out.println(run.toString());
         });
         app.get(API_MESSENGER_MAPPING, ctx -> {
-            Cursor mapping = (r.db("messenger")
-                    .table("mapping").run(conn));
+            Cursor mapping = (r.db("messenger").table("mapping").run(conn));
             ctx.result(OBJECT_MAPPER.writeValueAsString(mapping.toList()));
         });
         app.delete(API_MESSENGER_MAPPING + ID, ctx -> {
             Cursor mapping = (r.db("messenger").table("mapping")
-                    .filter(r.row("id").eq(ctx.param(ID))).delete().run(conn));
+                    .filter(r -> r.g("id").eq(ctx.param(ID))).delete().run(conn));
             ctx.result(OBJECT_MAPPER.writeValueAsString(mapping.toList()));
         });
         app.get(API_MESSENGER_MAPPING + ID, ctx -> {
             Cursor mapping = (r.db("messenger").table("mapping")
-                    .filter(r.row("id").eq(ctx.param(ID))).run(conn));
+                    .filter(r -> r.g("id").eq(ctx.param(ID))).run(conn));
             ctx.result(OBJECT_MAPPER.writeValueAsString(mapping.toList()));
         });
     }
